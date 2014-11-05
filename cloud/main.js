@@ -36,9 +36,26 @@ AV.Cloud.beforeSave("Review", function(request, response) {
 
 
 AV.Cloud.httpRequest({
-  url: 'http://www.google.com/',
+  url: 'http://sug.dic.daum.net/dic_all_ctsuggest/',
+  method: 'GET',
+  params: {
+    q : 'ㄱ',
+    cate : 'kor',
+    mod : 'json',
+    code : 'utf_in_out',
+    enc : 'utf'
+  },
   success: function(httpResponse) {
-    console.log(httpResponse.text);
+    var aaa = JSON.parse(httpResponse.text);
+	console.log(aaa.items);
+
+	for (var i = aaa.items.length - 1; i >= 0; i--) {
+		var arrayOfStrings = aaa.items[i].split('|');
+		for (var i = arrayOfStrings.length - 1; i >= 0; i--) {
+			console.log(arrayOfStrings[i]);
+		};
+
+	};
   },
   error: function(httpResponse) {
     console.error('Request failed with response code ' + httpResponse.status);
